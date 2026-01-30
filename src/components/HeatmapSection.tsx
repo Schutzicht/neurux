@@ -6,8 +6,8 @@ const HeatmapSection = () => {
     const cursorX = useMotionValue(0);
     const cursorY = useMotionValue(0);
 
-    // Hyper-active spring physics: Very high stiffness for instant snaps, low damping for a tiny bit of overshoot/zip
-    const springConfig = { damping: 25, stiffness: 800, mass: 0.5 };
+    // Balanced spring physics: Smooth but fast enough to feel like a scan.
+    const springConfig = { damping: 35, stiffness: 350, mass: 1 };
     const x = useSpring(cursorX, springConfig);
     const y = useSpring(cursorY, springConfig);
 
@@ -18,18 +18,22 @@ const HeatmapSection = () => {
         let fixationDuration = 0;
         let currentPointIndex = 0;
 
-        // More chaotic, scattered "hyper-scan" path
+        // Structured scanning with some interest jumps
         const pathPoints = [
-            { x: -300, y: -120 }, { x: 200, y: -100 }, { x: -100, y: -80 },
-            { x: 350, y: -50 }, { x: -400, y: 0 }, { x: 100, y: 50 },
-            { x: -200, y: 150 }, { x: 300, y: 200 }, { x: 0, y: -200 },
-            { x: 450, y: 100 }, { x: -450, y: -150 }, { x: 50, y: 0 }
+            // First header row
+            { x: -280, y: -90 }, { x: -80, y: -95 }, { x: 120, y: -85 }, { x: 300, y: -90 },
+            // Second header row
+            { x: -300, y: 10 }, { x: -50, y: 15 }, { x: 200, y: 10 }, { x: 400, y: 20 },
+            // Paragraph area
+            { x: -150, y: 120 }, { x: 50, y: 115 }, { x: 250, y: 125 },
+            // Interest points
+            { x: 0, y: 0 }, { x: -400, y: -150 }, { x: 400, y: 180 }
         ];
 
         const getNextDuration = (type: 'FIXATION' | 'SACCADE') => {
-            // Rapid-fire fixations: 40ms to 180ms
-            if (type === 'FIXATION') return 40 + Math.random() * 140;
-            return 20; // Saccade handover speed
+            // Balanced fixations: 350ms to 800ms
+            if (type === 'FIXATION') return 350 + Math.random() * 450;
+            return 50; // Saccade handover speed
         };
 
         fixationDuration = getNextDuration('FIXATION');
@@ -42,8 +46,8 @@ const HeatmapSection = () => {
             const centerY = window.innerHeight / 2;
 
             if (state === 'FIXATION') {
-                // Intense jitter during fixation
-                const jitterAmount = 8;
+                // Subtle jitter (Micro-saccades)
+                const jitterAmount = 4;
                 const noiseX = (Math.random() - 0.5) * jitterAmount;
                 const noiseY = (Math.random() - 0.5) * jitterAmount;
 
@@ -54,16 +58,19 @@ const HeatmapSection = () => {
                     state = 'SACCADE';
                     lastStateChange = now;
 
-                    // Pick a random next point for more chaos
-                    const nextIndex = Math.floor(Math.random() * pathPoints.length);
-                    currentTarget = pathPoints[nextIndex];
+                    // Proceed in path, but occasionally skip or re-read
+                    if (Math.random() < 0.15) {
+                        currentPointIndex = Math.floor(Math.random() * pathPoints.length);
+                    } else {
+                        currentPointIndex = (currentPointIndex + 1) % pathPoints.length;
+                    }
+                    currentTarget = pathPoints[currentPointIndex];
                 }
             } else if (state === 'SACCADE') {
-                // Snap to new target
                 cursorX.set(centerX + currentTarget.x);
                 cursorY.set(centerY + currentTarget.y);
 
-                if (timeInState > 30) { // Very fast flight time
+                if (timeInState > 80) { // Enough time for the spring to "zip" smoothly
                     state = 'FIXATION';
                     lastStateChange = now;
                     fixationDuration = getNextDuration('FIXATION');
@@ -79,28 +86,28 @@ const HeatmapSection = () => {
 
     return (
         <section className="relative w-full h-[85vh] bg-[#050505] overflow-hidden flex items-center justify-center">
-            {/* Background Text layer - More visible as requested */}
+            {/* Background Text layer */}
             <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0">
-                <h2 className="text-[12vw] font-black text-white/25 leading-none text-center mix-blend-overlay tracking-tighter">
+                <h2 className="text-[12vw] font-black text-white/20 leading-none text-center mix-blend-overlay tracking-tighter">
                     NEURUX
                     <br />
                     INTELLIGENCE
                 </h2>
                 <div className="flex gap-8 mt-6">
-                    <p className="text-white/40 text-sm md:text-lg font-mono tracking-widest uppercase">
-                        Scanning interface...
+                    <p className="text-white/30 text-xs md:text-sm font-mono tracking-widest uppercase">
+                        AI Scanning...
                     </p>
-                    <p className="text-[#29D9FF]/40 text-sm md:text-lg font-mono tracking-widest uppercase">
-                        Saccadic behavior detected
+                    <p className="text-[#29D9FF]/30 text-xs md:text-sm font-mono tracking-widest uppercase">
+                        Gaze Pattern Analysis
                     </p>
                 </div>
-                <p className="text-white/20 text-md max-w-3xl mt-12 text-center font-light leading-relaxed hidden md:block">
+                <p className="text-white/15 text-md max-w-3xl mt-12 text-center font-light leading-relaxed hidden md:block">
                     Onze eye-tracking algoritmen analyseren gebruikersgedrag op milliseconde-niveau. <br />
                     Visualiseer de onzichtbare patronen achter elke interactie.
                 </p>
             </div>
 
-            {/* Hyper-Active Heatmap Layer */}
+            {/* Balanced Heatmap Layer */}
             <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden mix-blend-screen opacity-90">
                 <motion.div
                     className="absolute w-[450px] h-[450px] rounded-full mix-blend-screen"
@@ -111,43 +118,43 @@ const HeatmapSection = () => {
                         translateY: "-50%",
                     }}
                 >
-                    {/* Outer Glow - Greenish */}
+                    {/* Outer Glow - Deep Blue/Green */}
                     <motion.div
-                        className="absolute inset-0 bg-[#39ff14] blur-[80px] opacity-30"
+                        className="absolute inset-0 bg-[#39ff14] blur-[100px] opacity-20"
                         animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.2, 0.4, 0.2]
+                            scale: [1, 1.1, 1],
+                            opacity: [0.15, 0.25, 0.15]
                         }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     />
 
-                    {/* Mid Glow - Yellow/Orange */}
+                    {/* Mid Glow - Electric Indigo / Cyanish */}
                     <motion.div
-                        className="absolute inset-10 bg-yellow-400 blur-[60px] opacity-50 mix-blend-screen"
+                        className="absolute inset-10 bg-[#29D9FF] blur-[70px] opacity-40 mix-blend-screen"
                         animate={{
-                            rotate: [0, 180, 360],
-                            scale: [0.8, 1.1, 0.8]
+                            rotate: [0, 90, 180, 270, 360],
+                            scale: [0.9, 1.05, 0.9]
                         }}
-                        transition={{ duration: 3, repeat: Infinity }}
+                        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                     />
 
-                    {/* Hot Core - Red/White */}
+                    {/* Hot Core - Bright Cyan/White */}
                     <motion.div
-                        className="absolute inset-20 bg-red-600 blur-[40px] opacity-80"
+                        className="absolute inset-20 bg-white/80 blur-[50px] opacity-60"
                         animate={{
-                            scale: [0.9, 1.3, 0.9],
+                            scale: [0.95, 1.1, 0.95],
                         }}
-                        transition={{ duration: 0.5, repeat: Infinity, repeatType: "mirror" }}
+                        transition={{ duration: 2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
                     />
 
-                    {/* Sharp Core for "Intensity" */}
-                    <div className="absolute inset-32 bg-white blur-[20px] opacity-40 rounded-full" />
+                    {/* Inner Core Focus */}
+                    <div className="absolute inset-32 bg-white blur-[25px] opacity-30 rounded-full" />
                 </motion.div>
             </div>
 
-            {/* Corner Decorative Elements */}
-            <div className="absolute top-10 left-10 border-l border-t border-white/20 w-20 h-20 pointer-events-none" />
-            <div className="absolute bottom-10 right-10 border-r border-b border-white/20 w-20 h-20 pointer-events-none" />
+            {/* HUD Decoration */}
+            <div className="absolute top-10 left-10 border-l border-t border-white/10 w-16 h-16 pointer-events-none opacity-50" />
+            <div className="absolute bottom-10 right-10 border-r border-b border-white/10 w-16 h-16 pointer-events-none opacity-50" />
         </section>
     );
 };
