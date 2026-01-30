@@ -15,6 +15,8 @@ const MouseHeatmap = () => {
     const x = useSpring(cursorX, springConfig);
     const y = useSpring(cursorY, springConfig);
 
+    const [isHidden, setIsHidden] = useState(false);
+
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.matchMedia("(pointer: coarse)").matches);
@@ -28,10 +30,19 @@ const MouseHeatmap = () => {
                 cursorY.set(e.clientY);
                 lastMoveTime.current = Date.now();
                 setIntensity(0); // Reset intensity immediately on move
+
+                // Check if we are over the cases section or any other restricted area
+                const element = document.elementFromPoint(e.clientX, e.clientY);
+                if (element && (element.closest('#cases') || element.closest('#contact'))) {
+                    setIsHidden(true);
+                } else {
+                    setIsHidden(false);
+                }
             };
 
             // Timer to check for stationarity and increase intensity
             const interval = setInterval(() => {
+                if (isHidden) return;
                 const now = Date.now();
                 if (now - lastMoveTime.current > 100) {
                     // Mouse has been stationary for 100ms
@@ -48,7 +59,7 @@ const MouseHeatmap = () => {
         }
 
         return () => window.removeEventListener("resize", checkMobile);
-    }, [isMobile]);
+    }, [isMobile, isHidden]);
 
     if (isMobile) {
         return (
@@ -81,7 +92,11 @@ const MouseHeatmap = () => {
     }
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <motion.div
+            className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+            animate={{ opacity: isHidden ? 0 : 1 }}
+            transition={{ duration: 0.4 }}
+        >
             <motion.div
                 className="absolute w-[400px] h-[400px] rounded-full mix-blend-screen opacity-90"
                 style={{
