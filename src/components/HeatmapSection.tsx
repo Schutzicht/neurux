@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+
+interface PathSegment {
+    id: number;
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+}
 
 const HeatmapSection = () => {
     // Motion values for the "ghost" cursor
@@ -10,6 +16,9 @@ const HeatmapSection = () => {
     const springConfig = { damping: 35, stiffness: 350, mass: 1 };
     const x = useSpring(cursorX, springConfig);
     const y = useSpring(cursorY, springConfig);
+
+    const [segments, setSegments] = useState<PathSegment[]>([]);
+    const prevPosRef = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
         let animationFrameId: number;
@@ -58,6 +67,9 @@ const HeatmapSection = () => {
                     state = 'SACCADE';
                     lastStateChange = now;
 
+                    // Store current position as start of next saccade
+                    prevPosRef.current = { x: currentTarget.x, y: currentTarget.y };
+
                     // Proceed in path, but occasionally skip or re-read
                     if (Math.random() < 0.15) {
                         currentPointIndex = Math.floor(Math.random() * pathPoints.length);
@@ -71,6 +83,15 @@ const HeatmapSection = () => {
                 cursorY.set(centerY + currentTarget.y);
 
                 if (timeInState > 80) { // Enough time for the spring to "zip" smoothly
+                    // Record the jump as a segment
+                    const newSegment: PathSegment = {
+                        id: Date.now(),
+                        start: { ...prevPosRef.current },
+                        end: { x: currentTarget.x, y: currentTarget.y }
+                    };
+
+                    setSegments(prev => [...prev.slice(-6), newSegment]);
+
                     state = 'FIXATION';
                     lastStateChange = now;
                     fixationDuration = getNextDuration('FIXATION');
@@ -98,7 +119,7 @@ const HeatmapSection = () => {
                         AI Scanning...
                     </p>
                     <p className="text-[#29D9FF]/30 text-xs md:text-sm font-mono tracking-widest uppercase">
-                        Gaze Pattern Analysis
+                        Gaze Path Analysis
                     </p>
                 </div>
                 <p className="text-white/15 text-md max-w-3xl mt-12 text-center font-light leading-relaxed hidden md:block">
@@ -106,6 +127,32 @@ const HeatmapSection = () => {
                     Visualiseer de onzichtbare patronen achter elke interactie.
                 </p>
             </div>
+
+            {/* Saccade Path Layer (SVG) */}
+            <svg className="absolute inset-0 pointer-events-none z-5 w-full h-full opacity-40">
+                <AnimatePresence>
+                    {segments.map((seg) => (
+                        <motion.line
+                            key={seg.id}
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: [0, 1, 0] }}
+                            exit={{ opacity: 0 }}
+                            transition={{
+                                pathLength: { duration: 0.3, ease: "easeOut" },
+                                opacity: { duration: 3, times: [0, 0.1, 1] }
+                            }}
+                            x1={`calc(50% + ${seg.start.x}px)`}
+                            y1={`calc(50% + ${seg.start.y}px)`}
+                            x2={`calc(50% + ${seg.end.x}px)`}
+                            y2={`calc(50% + ${seg.end.y}px)`}
+                            stroke="#29D9FF"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            style={{ filter: "blur(0.5px)" }}
+                        />
+                    ))}
+                </AnimatePresence>
+            </svg>
 
             {/* Balanced Heatmap Layer */}
             <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden mix-blend-screen opacity-90">
