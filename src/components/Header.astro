@@ -1,4 +1,5 @@
 ---
+import EyeLogo from './EyeLogo';
 ---
 
 <header id="main-header" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-5xl transition-all duration-500 ease-in-out">
@@ -9,10 +10,8 @@
 
     {/* Logo Area */}
     <a href="#" class="text-3xl font-bold tracking-tighter text-white group flex items-center gap-3 relative z-10">
-      <div class="w-10 h-10 logo-container rounded-full bg-[#29D9FF] flex items-center justify-center relative overflow-hidden group-hover:rotate-12 transition-all duration-500 shadow-[0_0_15px_#29D9FF]">
-        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-        <div class="w-3 h-3 bg-black rounded-full shadow-inner"></div>
-      </div>
+      {/* Interactive Eye Logo */}
+      <EyeLogo client:load />
       <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 group-hover:to-white transition-all">neur<span class="text-[#29D9FF]">UX</span></span>
     </a>
 
