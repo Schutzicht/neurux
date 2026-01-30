@@ -92,13 +92,11 @@ const MouseHeatmap = () => {
                 }}
             >
                 {/* 
-                    Organic Blob Layers 
-                    Using border-radius to create non-circular, morphing shapes 
+                    Layer 1: Base/Outer - Light Green
+                    Always visible, forms the outer "cool" rim.
                 */}
-
-                {/* Outer cool - Blue/Cyan/Green halo - Largest Blob */}
                 <motion.div
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500 blur-[80px] opacity-20"
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#39ff14] blur-[50px] opacity-40"
                     animate={{
                         borderRadius: [
                             "60% 40% 30% 70% / 60% 30% 70% 40%",
@@ -106,21 +104,22 @@ const MouseHeatmap = () => {
                             "60% 40% 30% 70% / 60% 30% 70% 40%"
                         ],
                         rotate: [0, 90, 0],
-                        scale: isMobile ? 1 : [1, 1.1, 1],
+                        scale: isMobile ? 1 : [1, 1.05, 1],
                     }}
                     transition={{
                         duration: 10,
                         repeat: Infinity,
                         ease: "easeInOut"
                     }}
-                    style={{
-                        background: `radial-gradient(circle, rgba(0,255,255,0.3) 0%, rgba(0,255,0,0.1) 60%, rgba(0,0,255,0) 80%)`
-                    }}
                 />
 
-                {/* Mid warmth - Yellow/Green/Orange - Medium Blob */}
+                {/* 
+                    Layer 2: Mid - Yellow
+                    Sits inside green. As intensity grows, this gets covered by the red core,
+                    effectively becoming the "thinner" middle ring.
+                */}
                 <motion.div
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-yellow-400 blur-[50px] opacity-40 mix-blend-screen"
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-yellow-300 blur-[40px] opacity-60 mix-blend-screen"
                     animate={{
                         borderRadius: [
                             "40% 60% 70% 30% / 40% 50% 60% 50%",
@@ -128,22 +127,21 @@ const MouseHeatmap = () => {
                             "40% 60% 70% 30% / 40% 50% 60% 50%"
                         ],
                         rotate: [0, -60, 0],
-                        opacity: 0.5 + (intensity * 0.2),
-                        scale: 1 + (intensity * 0.1),
+                        scale: 1 + (intensity * 0.1), // Expands slightly with heat
                     }}
                     transition={{
                         duration: 7,
                         repeat: Infinity,
                         ease: "easeInOut"
                     }}
-                    style={{
-                        background: `radial-gradient(circle, rgba(255,215,0,0.5) 0%, rgba(173,255,47,0.3) 50%, rgba(0,255,0,0) 70%)`
-                    }}
                 />
 
-                {/* Inner intense core - Red/Orange - Smallest Blob */}
+                {/* 
+                    Layer 3: Core - Starts Transparent/Yellow -> Fills with Red -> Dark Red
+                    This is the "fill up" visual.
+                */}
                 <motion.div
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-red-600 blur-[40px] mix-blend-screen"
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] blur-[30px] mix-blend-normal"
                     animate={{
                         borderRadius: [
                             "70% 30% 50% 50% / 30% 50% 70% 70%",
@@ -151,16 +149,16 @@ const MouseHeatmap = () => {
                             "70% 30% 50% 50% / 30% 50% 70% 70%"
                         ],
                         rotate: [0, 120, 0],
-                        opacity: 0.6 + (intensity * 0.4),
-                        scale: 1 + (intensity * 0.1),
+                        // Key behavior: Starts small/invisible, grows and turns darker red
+                        opacity: intensity, // Fades in based on intensity
+                        scale: 0.5 + (intensity * 0.6), // Grows from 50% to 110% size
+                        backgroundColor: intensity < 0.5 ? '#ff0000' : '#8b0000', // Pure Red -> Dark Red
                     }}
                     transition={{
                         duration: 5,
                         repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                    style={{
-                        background: `radial-gradient(circle, rgba(255,0,0,${0.7 + (intensity * 0.3)}) 0%, rgba(255,69,0,${0.5 + (intensity * 0.2)}) 40%, rgba(255,140,0,0) 70%)`
+                        ease: "easeInOut",
+                        backgroundColor: { duration: 0.2 } // Fast color switch/transition
                     }}
                 />
             </motion.div>
