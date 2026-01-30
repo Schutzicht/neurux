@@ -47,11 +47,15 @@ import { Mail, Phone, MapPin } from 'lucide-react';
       </div>
     </div>
 
-    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm relative z-20">
-      <div class="flex flex-col md:flex-row gap-4 items-center">
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-gray-500 text-sm relative z-20">
+      <div class="flex flex-col md:flex-row gap-4 items-start md:items-center text-left">
         <p>&copy; {new Date().getFullYear()} Neurux. Onderdeel van HZ University of Applied Sciences.</p>
         <span class="hidden md:inline text-gray-700">|</span>
-        <a href="https://zee-zicht.nl" target="_blank" class="hover:text-[#29D9FF] transition-colors">Gemaakt door zee-zicht.nl</a>
+        <a href="https://zee-zicht.nl" target="_blank" class="text-white relative group overflow-hidden">
+            <span class="relative z-10 group-hover:text-[#29D9FF] transition-colors duration-300">Gemaakt door zee-zicht.nl</span>
+            <div class="absolute inset-0 bg-[#29D9FF] opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300"></div>
+            <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#29D9FF] to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+        </a>
       </div>
       <div class="flex gap-6 mt-4 md:mt-0">
         <a href="#" class="hover:text-white transition-colors">Privacy</a>
@@ -62,7 +66,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
   {/* Giant Text Watermark */}
   <div class="absolute bottom-[-2%] left-1/2 transform -translate-x-1/2 w-full text-center pointer-events-none select-none overflow-hidden pb-4">
-    <h1 class="text-[12vw] md:text-[10vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-[#29D9FF]/20 to-[#29D9FF]/5 leading-none tracking-tighter mix-blend-overlay">
+    <h1 class="text-[18vw] md:text-[10vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-[#29D9FF]/20 to-[#29D9FF]/5 leading-none tracking-tighter mix-blend-overlay">
       TOT NEURUX
     </h1>
   </div>
