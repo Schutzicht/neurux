@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
 ---
 
 <section id="cases" class="py-20 md:py-32 relative overflow-hidden">
@@ -17,10 +17,14 @@ import { ArrowUpRight } from 'lucide-react';
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+    {/* Scroll Container */}
+    <div 
+        id="cases-container"
+        class="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-3 gap-4 md:gap-12 pb-8 md:pb-0 scrollbar-hide scroll-smooth"
+    >
       
       {/* Case 1: NPO Start */}
-      <div class="group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
+      <div class="min-w-[85vw] md:min-w-0 snap-center group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
         <div class="h-64 bg-gradient-to-br from-[#ff6b00] to-[#ff0000] relative overflow-hidden flex items-center justify-center p-8">
             <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
             
@@ -46,7 +50,7 @@ import { ArrowUpRight } from 'lucide-react';
       </div>
 
       {/* Case 2: Roompot */}
-      <div class="group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
+      <div class="min-w-[85vw] md:min-w-0 snap-center group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
         <div class="h-64 bg-gradient-to-br from-[#e3000f] to-[#aa0000] relative overflow-hidden flex items-center justify-center p-8">
              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
             
@@ -72,7 +76,7 @@ import { ArrowUpRight } from 'lucide-react';
       </div>
 
       {/* Case 3: TMC Wonen */}
-      <div class="group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
+      <div class="min-w-[85vw] md:min-w-0 snap-center group relative bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-[#29D9FF]/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(41,217,255,0.2)] hover:-translate-y-2">
         <div class="h-64 bg-gradient-to-br from-[#df9533] to-[#cc8800] relative overflow-hidden flex items-center justify-center p-8">
              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500"></div>
             
@@ -98,8 +102,47 @@ import { ArrowUpRight } from 'lucide-react';
       </div>
 
     </div>
+
+    {/* Mobile Navigation Buttons */}
+    <div class="flex justify-center gap-4 mt-6 md:hidden">
+        <button id="prev-case" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#29D9FF] hover:text-black hover:border-transparent transition-all active:scale-95">
+            <ArrowLeft size={24} />
+        </button>
+        <button id="next-case" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-[#29D9FF] hover:text-black hover:border-transparent transition-all active:scale-95">
+            <ArrowRight size={24} />
+        </button>
+    </div>
+
   </div>
 
   {/* Background glow effects */}
   <div class="absolute top-1/2 left-1/4 w-96 h-96 bg-[#29D9FF] rounded-full filter blur-[150px] opacity-5 pointer-events-none"></div>
 </section>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .scrollbar-hide {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
+
+<script>
+    const container = document.getElementById('cases-container');
+    const prevBtn = document.getElementById('prev-case');
+    const nextBtn = document.getElementById('next-case');
+
+    if (container && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+             container.scrollBy({ left: -window.innerWidth * 0.85, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+             container.scrollBy({ left: window.innerWidth * 0.85, behavior: 'smooth' });
+        });
+    }
+</script>
