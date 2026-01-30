@@ -42,10 +42,30 @@
     </div>
 
     {/* Equipment Ticker / List */}
-    <div class="border-t border-white/10 pt-20 text-center">
+    <div class="border-t border-white/10 pt-20 text-center overflow-hidden">
         <h4 class="text-gray-500 text-sm font-mono uppercase tracking-widest mb-10">Wij werken met top-tier technologie</h4>
-        <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Simple text placeholders for logos, or refined text badges */}
+        
+        {/* Mobile Infinite Carousel */}
+        <div class="md:hidden relative w-full overflow-hidden">
+          <div class="flex gap-8 items-center animate-scroll whitespace-nowrap min-w-max">
+             {/* Original List */}
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Tobii Pro Nano</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Gazepoint GP3</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Pupil Labs Invisible</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Smart Eye AI-X</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">iMotions</span>
+             
+             {/* Duplicate for Loop */}
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Tobii Pro Nano</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Gazepoint GP3</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Pupil Labs Invisible</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Smart Eye AI-X</span>
+             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">iMotions</span>
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div class="hidden md:flex flex-wrap justify-center gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Tobii Pro Nano</span>
             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Gazepoint GP3</span>
             <span class="text-2xl font-bold text-white hover:text-[#29D9FF] transition-colors cursor-default">Pupil Labs Invisible</span>
@@ -55,3 +75,13 @@
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+</style>
