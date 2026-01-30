@@ -38,7 +38,6 @@ const EyeLogo = () => {
     }, []);
 
     return (
-    return (
         <div
             ref={eyeRef}
             className="w-10 h-10 logo-container rounded-full bg-[#29D9FF] flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_#29D9FF] transition-all duration-500 group-hover:rotate-0 border-2 border-white/10"
@@ -54,7 +53,6 @@ const EyeLogo = () => {
                 }}
             />
         </div>
-    );
     );
 };
 
