@@ -9,8 +9,16 @@ const StickyCTA = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Show button only after scrolling past the hero section (e.g., 100vh or a fixed amount)
-            if (window.scrollY > window.innerHeight * 0.8) {
+            const contactSection = document.getElementById('contact-form');
+            if (!contactSection) return;
+
+            const contactTop = contactSection.offsetTop;
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            // Show button after hero (0.8vh) AND hide before contact section
+            // We hide it when the bottom of the viewport reaches the contact section
+            if (scrollY > windowHeight * 0.8 && scrollY + windowHeight < contactTop + 100) {
                 setIsVisible(true);
             } else {
                 setIsVisible(false);
