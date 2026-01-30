@@ -177,7 +177,7 @@ const MouseHeatmap = () => {
                     }}
                 />
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
 
