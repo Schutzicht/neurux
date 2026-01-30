@@ -40,17 +40,27 @@ const EyeLogo = () => {
     return (
         <div
             ref={eyeRef}
-            className="w-10 h-10 logo-container rounded-full bg-[#29D9FF] flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_#29D9FF] transition-all duration-500 group-hover:rotate-0"
+            className="w-10 h-10 logo-container rounded-full flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_#29D9FF] transition-all duration-500 group-hover:rotate-0 border border-[#29D9FF]/30"
+            style={{
+                background: 'radial-gradient(circle at 30% 30%, #4ae2ff 0%, #29D9FF 40%, #0066ff 100%)' // Depth gradient
+            }}
         >
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+            {/* Iris Texture (subtle) */}
+            <div className="absolute inset-0 opacity-20 bg-[repeating-conic-gradient(from_0deg,_transparent_0deg_10deg,_#000_10deg_20deg)] mix-blend-overlay"></div>
+
+            {/* Glare/Reflection (Crucial for "Eye" look) */}
+            <div className="absolute top-1.5 right-2 w-2.5 h-1.5 bg-white rounded-full opacity-60 rotate-[-15deg] z-20 blur-[0.5px]"></div>
 
             {/* Moving Pupil */}
             <div
-                className="w-3 h-3 bg-black rounded-full shadow-inner transition-transform duration-75 ease-out"
+                className="relative z-10 w-3.5 h-3.5 bg-black rounded-full shadow-[inset_0_0_4px_rgba(0,0,0,0.8)] transition-transform duration-75 ease-out flex items-center justify-center"
                 style={{
                     transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)`
                 }}
-            />
+            >
+                {/* Pupil highlight */}
+                <div className="w-1 h-1 bg-white/10 rounded-full blur-[0.5px] absolute top-0.5 right-0.5"></div>
+            </div>
         </div>
     );
 };
