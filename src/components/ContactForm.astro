@@ -1,0 +1,113 @@
+---
+import { ArrowRight, Linkedin, ArrowUpRight } from 'lucide-react';
+---
+
+<section id="contact-form" class="py-20 md:py-32 bg-[#050505] relative overflow-hidden">
+  
+  {/* Background Glows */}
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 -left-64 w-[500px] h-[500px] bg-[#29D9FF]/10 rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-1/4 -right-64 w-[500px] h-[500px] bg-[#0066ff]/10 rounded-full blur-[120px]"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      
+      {/* Left Column: Info & Team */}
+      <div>
+        <h2 class="text-[#29D9FF] text-base font-mono tracking-widest mb-4 uppercase">Let's Connect</h2>
+        <h3 class="text-4xl md:text-5xl font-bold text-white mb-8">
+          Klaar om je user experience te <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#29D9FF] to-[#0066ff]">optimaliseren?</span>
+        </h3>
+        <p class="text-gray-400 text-lg mb-12 max-w-md">
+          Neem contact op voor een vrijblijvende demo of spar sessie over jouw digitale uitdagingen.
+        </p>
+
+        {/* Team Section */}
+        <div class="space-y-6">
+            <h4 class="text-white font-bold text-xl mb-6 flex items-center gap-3">
+                <span class="w-8 h-[2px] bg-[#29D9FF]"></span> Het Team
+            </h4>
+            
+            <a href="https://www.linkedin.com/in/ginothuij/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between group p-4 rounded-2xl hover:bg-white/5 transition-all cursor-pointer border border-transparent hover:border-white/5 hover:translate-x-1">
+                <div class="flex items-center gap-5">
+                    <div class="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#29D9FF] transition-colors shrink-0">
+                       <img src="/images/team/gino.png" alt="Gino Thuij" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-lg group-hover:text-[#29D9FF] transition-colors">Gino Thuij</p>
+                        <p class="text-gray-400 text-sm">Commercieel Directeur</p>
+                    </div>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 group-hover:bg-[#29D9FF] transition-all transform group-hover:-rotate-12">
+                     <Linkedin size={20} class="text-gray-400 group-hover:text-black transition-colors" />
+                </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/jaap-nelemans-176a8717/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between group p-4 rounded-2xl hover:bg-white/5 transition-all cursor-pointer border border-transparent hover:border-white/5 hover:translate-x-1">
+                <div class="flex items-center gap-5">
+                    <div class="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#29D9FF] transition-colors shrink-0">
+                       <img src="/images/team/jaap.png" alt="Jaap Nelemans" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-lg group-hover:text-[#29D9FF] transition-colors">Jaap Nelemans</p>
+                        <p class="text-gray-400 text-sm">Algemeen Directeur</p>
+                    </div>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 group-hover:bg-[#29D9FF] transition-all transform group-hover:-rotate-12">
+                     <Linkedin size={20} class="text-gray-400 group-hover:text-black transition-colors" />
+                </div>
+            </a>
+        </div>
+      </div>
+
+      {/* Right Column: Form */}
+      <div class="bg-white/5 backdrop-blur-lg border border-white/10 p-8 md:p-10 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#29D9FF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+        
+        <form class="space-y-6 relative z-10">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div class="relative">
+                <input type="text" id="name" class="peer w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#29D9FF] focus:shadow-[0_0_15px_rgba(41,217,255,0.3)] transition-all placeholder-transparent" placeholder="Naam" />
+                <label for="name" class="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-6 peer-focus:text-[#29D9FF] peer-focus:text-xs bg-[#111] px-1 peer-placeholder-shown:bg-transparent peer-focus:rounded">Naam</label>
+             </div>
+             <div class="relative">
+                <input type="email" id="email" class="peer w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#29D9FF] focus:shadow-[0_0_15px_rgba(41,217,255,0.3)] transition-all placeholder-transparent" placeholder="Email" />
+                <label for="email" class="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-6 peer-focus:text-[#29D9FF] peer-focus:text-xs bg-[#111] px-1 peer-placeholder-shown:bg-transparent peer-focus:rounded">Email</label>
+             </div>
+          </div>
+          
+          <div class="relative">
+             <select id="reason" class="peer w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#29D9FF] focus:shadow-[0_0_15px_rgba(41,217,255,0.3)] transition-all appearance-none cursor-pointer">
+                <option value="" disabled selected class="bg-[#111] text-gray-500">Maak een keuze...</option>
+                <option value="kennismaking" class="bg-[#111]">Vrijblijvende Kennismaking</option>
+                <option value="demo" class="bg-[#111]">Demo Aanvragen</option>
+                <option value="project" class="bg-[#111]">Project Bespreken</option>
+                <option value="overig" class="bg-[#111]">Overige Vragen</option>
+             </select>
+             <label for="reason" class="absolute left-4 -top-2.5 text-[#29D9FF] text-xs bg-[#111] px-1 rounded">Waarom neem je contact op?</label>
+             <div class="absolute right-4 top-3.5 pointer-events-none text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+             </div>
+          </div>
+
+          <div class="relative">
+             <input type="text" id="subject" class="peer w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#29D9FF] focus:shadow-[0_0_15px_rgba(41,217,255,0.3)] transition-all placeholder-transparent" placeholder="Onderwerp" />
+             <label for="subject" class="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-6 peer-focus:text-[#29D9FF] peer-focus:text-xs bg-[#111] px-1 peer-placeholder-shown:bg-transparent peer-focus:rounded">Onderwerp</label>
+          </div>
+
+          <div class="relative">
+             <textarea id="message" rows="4" class="peer w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#29D9FF] focus:shadow-[0_0_15px_rgba(41,217,255,0.3)] transition-all placeholder-transparent" placeholder="Bericht"></textarea>
+             <label for="message" class="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-6 peer-focus:text-[#29D9FF] peer-focus:text-xs bg-[#111] px-1 peer-placeholder-shown:bg-transparent peer-focus:rounded">Bericht</label>
+          </div>
+
+          <button type="submit" class="w-full bg-[#29D9FF] text-black font-bold py-4 rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2 group/btn shadow-[0_0_20px_rgba(41,217,255,0.4)]">
+             Verstuur Bericht
+             <ArrowRight class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+---
+import MouseHeatmap from './MouseHeatmap';
+---
+
+<section class="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#050505]">
+  {/* Background Elements */}
+  <div class="absolute inset-0">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/50 to-[#050505] z-10"></div>
+    {/* Interactive Heatmap Layer */}
+    <MouseHeatmap client:only="react" />
+  </div>
+
+  <div class="z-20 text-center px-4">
+    <h2 class="text-[#29D9FF] text-lg md:text-xl font-mono tracking-widest mb-4 uppercase animate-pulse">
+      Eye Tracking & UX Research
+    </h2>
+    <h1 class="text-5xl md:text-8xl font-bold tracking-tighter text-white mb-6 relative group">
+      SEEING IS <br />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#29D9FF] to-[#0066ff] transition-all duration-300">
+        BELIEVING
+      </span>
+      {/* Glitch effect layer */}
+      <span class="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-[#29D9FF] to-[#0066ff] blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300 transform scale-105">
+        BELIEVING
+      </span>
+    </h1>
+    
+    <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl mb-12 font-light leading-relaxed">
+      Ontdek wat jouw gebruikers écht zien. Wij optimaliseren User Experience en Conversie door middel van geavanceerde eye-tracking technologie.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+      <a href="#about" 
+         class="px-8 py-4 bg-[#29D9FF] text-black font-bold text-lg rounded-full hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(57,255,20,0.5)]">
+        Start Onderzoek
+      </a>
+      <a href="#services" 
+         class="px-8 py-4 border border-white/20 text-white font-medium text-lg rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm">
+        Bekijk Cases
+      </a>
+    </div>
+  </div>
+
+  {/* Scroll Indicator */}
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-50">
+      <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+    </svg>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+---
+import "../styles/global.css";
+import "@fontsource/inter";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/800.css";
+import NeuruxCursor from "../components/NeuruxCursor";
+import Header from "../components/Header.astro";
+
+import StickyCTA from "../components/StickyCTA";
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Neurux - Seeing is Believing. Eye tracking for UX & CRO." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-[#050505] text-white overflow-x-hidden selection:bg-[#29D9FF] selection:text-black">
+		<NeuruxCursor client:load />
+        <Header />
+        <StickyCTA client:load />
+		<slot />
+	</body>
+</html>

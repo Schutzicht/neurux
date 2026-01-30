@@ -1,0 +1,58 @@
+---
+import TextReveal from './TextReveal';
+import { Eye, MousePointer2, TrendingUp, Search } from 'lucide-react';
+
+const features = [
+  {
+    icon: Eye,
+    title: "Eye Tracking",
+    description: "Meet precies waar jouw gebruikers naar kijken. Ontdek de 'hotspots' en 'blind spots' van jouw ontwerp."
+  },
+  {
+    icon: MousePointer2,
+    title: "User Experience",
+    description: "Krijg inzicht in de klantreis. Verbeter de navigatie en zorg voor een intuïtieve gebruikerservaring."
+  },
+  {
+    icon: TrendingUp,
+    title: "Conversie Optimalisatie",
+    description: "Haal meer rendement uit je campagnes. Verlaag de kosten per conversie door datagedreven beslissingen."
+  },
+  {
+    icon: Search,
+    title: "Diepgaande Analyse",
+    description: "Wij gebruiken geavanceerde software zoals iMotions om emoties en gedrag haarfijn in kaart te brengen."
+  }
+];
+---
+
+<section id="about" class="min-h-screen bg-[#050505] py-20 relative overflow-hidden">
+  <div class="container mx-auto px-4 relative z-10">
+    
+    <div class="mb-32 max-w-4xl mx-auto">
+      <h2 class="text-[#29D9FF] text-sm md:text-base font-mono tracking-widest mb-8 uppercase text-center">
+        Over Neurux
+      </h2>
+      <TextReveal 
+        client:visible 
+        text="Bij neurUX geloven we dat je pas echt begrijpt hoe een gebruiker jouw website ervaart, als je het door hun ogen ziet. Wij meten, analyseren en optimaliseren." 
+        className="text-3xl md:text-5xl font-bold text-white leading-tight text-center" 
+      />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      {features.map((feature, index) => (
+        <div class="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-[#29D9FF]/50 transition-all duration-300 group hover:bg-white/10">
+            <feature.icon className="w-12 h-12 text-[#29D9FF] mb-6 group-hover:scale-110 transition-transform duration-300" />
+            <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-[#29D9FF] transition-colors">{feature.title}</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  {/* Decorative Elements */}
+  <div class="absolute top-1/4 left-0 w-64 h-64 bg-[#29D9FF] rounded-full filter blur-[100px] opacity-10 pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-0 w-96 h-96 bg-[#0066ff] rounded-full filter blur-[120px] opacity-10 pointer-events-none"></div>
+</section>
