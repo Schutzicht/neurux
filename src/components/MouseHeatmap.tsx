@@ -15,7 +15,7 @@ const MouseHeatmap = () => {
     const x = useSpring(cursorX, springConfig);
     const y = useSpring(cursorY, springConfig);
 
-    const [isHidden, setIsHidden] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -31,18 +31,18 @@ const MouseHeatmap = () => {
                 lastMoveTime.current = Date.now();
                 setIntensity(0); // Reset intensity immediately on move
 
-                // Check if we are over the cases section or any other restricted area
+                // Only show if we are over the hero section
                 const element = document.elementFromPoint(e.clientX, e.clientY);
-                if (element && (element.closest('#cases') || element.closest('#contact'))) {
-                    setIsHidden(true);
+                if (element && element.closest('#hero')) {
+                    setIsVisible(true);
                 } else {
-                    setIsHidden(false);
+                    setIsVisible(false);
                 }
             };
 
             // Timer to check for stationarity and increase intensity
             const interval = setInterval(() => {
-                if (isHidden) return;
+                if (!isVisible) return;
                 const now = Date.now();
                 if (now - lastMoveTime.current > 100) {
                     // Mouse has been stationary for 100ms
@@ -59,7 +59,7 @@ const MouseHeatmap = () => {
         }
 
         return () => window.removeEventListener("resize", checkMobile);
-    }, [isMobile, isHidden]);
+    }, [isMobile, isVisible]);
 
     if (isMobile) {
         return (
@@ -94,7 +94,7 @@ const MouseHeatmap = () => {
     return (
         <motion.div
             className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-            animate={{ opacity: isHidden ? 0 : 1 }}
+            animate={{ opacity: isVisible ? 1 : 0 }}
             transition={{ duration: 0.4 }}
         >
             <motion.div
