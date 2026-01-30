@@ -3,6 +3,17 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 
 const NeuruxCursor = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.matchMedia("(pointer: coarse)").matches);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
@@ -38,7 +49,7 @@ const NeuruxCursor = () => {
         };
     }, []);
 
-    return (
+    return isMobile ? null : (
         <>
             {/* Main Cursor Dot */}
             <motion.div

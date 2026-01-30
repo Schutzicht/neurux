@@ -42,15 +42,25 @@
     </a>
     
     {/* Mobile Menu Button with animated look */}
-    <button class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group">
-        <div class="w-6 h-0.5 bg-white group-hover:bg-[#29D9FF] transition-colors rounded-full transform group-hover:translate-y-1 group-hover:rotate-45 transition-transform duration-300"></div>
-        <div class="w-6 h-0.5 bg-white group-hover:opacity-0 transition-opacity rounded-full"></div>
-        <div class="w-6 h-0.5 bg-white group-hover:bg-[#29D9FF] transition-colors rounded-full transform group-hover:-translate-y-3 group-hover:-rotate-45 transition-transform duration-300"></div>
+    <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group z-50 relative">
+        <div class="w-6 h-0.5 bg-white group-hover:bg-[#29D9FF] transition-colors rounded-full transform transition-transform duration-300 origin-center menu-line-top"></div>
+        <div class="w-6 h-0.5 bg-white group-hover:opacity-0 transition-opacity rounded-full menu-line-middle"></div>
+        <div class="w-6 h-0.5 bg-white group-hover:bg-[#29D9FF] transition-colors rounded-full transform transition-transform duration-300 origin-center menu-line-bottom"></div>
     </button>
+  </div>
+
+  {/* Mobile Menu Overlay */}
+  <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-3xl z-40 transform translate-x-full transition-transform duration-500 flex flex-col items-center justify-center">
+    <nav class="flex flex-col items-center gap-8">
+      <a href="#about" class="text-3xl text-white font-bold hover:text-[#29D9FF] transition-colors mobile-link">Over Ons</a>
+      <a href="#services" class="text-3xl text-white font-bold hover:text-[#29D9FF] transition-colors mobile-link">Diensten</a>
+      <a href="#contact-form" class="text-3xl text-white font-bold hover:text-[#29D9FF] transition-colors mobile-link">Contact</a>
+    </nav>
   </div>
 </header>
 
 <script>
+  // Scroll Effect
   window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');
     const container = header?.querySelector('.header-container');
@@ -77,5 +87,51 @@
       logoContainer?.classList.add('w-10', 'h-10');
       logoContainer?.classList.remove('w-8', 'h-8');
     }
+  });
+
+  // Mobile Menu Logic
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menuOverlay = document.getElementById('mobile-menu-overlay');
+  const topLine = menuBtn?.querySelector('.menu-line-top');
+  const middleLine = menuBtn?.querySelector('.menu-line-middle');
+  const bottomLine = menuBtn?.querySelector('.menu-line-bottom');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  let isMenuOpen = false;
+
+  menuBtn?.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    
+    if (isMenuOpen) {
+      // Open Menu
+      menuOverlay?.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+      
+      // Animate Hamburger to X
+      topLine?.classList.add('rotate-45', 'translate-y-2');
+      middleLine?.classList.add('opacity-0');
+      bottomLine?.classList.add('-rotate-45', '-translate-y-2');
+    } else {
+      // Close Menu
+      menuOverlay?.classList.add('translate-x-full');
+      document.body.style.overflow = ''; // Restore scrolling
+      
+      // Animate X back to Hamburger
+      topLine?.classList.remove('rotate-45', 'translate-y-2');
+      middleLine?.classList.remove('opacity-0');
+      bottomLine?.classList.remove('-rotate-45', '-translate-y-2');
+    }
+  });
+
+  // Close menu when a link is clicked
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      isMenuOpen = false;
+      menuOverlay?.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+      
+      topLine?.classList.remove('rotate-45', 'translate-y-2');
+      middleLine?.classList.remove('opacity-0');
+      bottomLine?.classList.remove('-rotate-45', '-translate-y-2');
+    });
   });
 </script>

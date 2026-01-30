@@ -1,10 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Eye } from "lucide-react";
 
 const StickyCTA = () => {
     const ref = useRef<HTMLAnchorElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Show button only after scrolling past the hero section (e.g., 100vh or a fixed amount)
+            if (window.scrollY > window.innerHeight * 0.8) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        // Initial check
+        handleScroll();
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const handleMouseMove = (e: React.MouseEvent) => {
         const { clientX, clientY } = e;
@@ -19,7 +37,7 @@ const StickyCTA = () => {
     };
 
     return (
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className={`fixed bottom-8 right-8 z-50 transition-opacity duration-500 ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
             <motion.a
                 href="#contact-form"
                 ref={ref}
