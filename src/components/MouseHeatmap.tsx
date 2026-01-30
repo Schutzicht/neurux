@@ -15,8 +15,6 @@ const MouseHeatmap = () => {
     const x = useSpring(cursorX, springConfig);
     const y = useSpring(cursorY, springConfig);
 
-    const [isVisible, setIsVisible] = useState(false);
-
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.matchMedia("(pointer: coarse)").matches);
@@ -26,26 +24,17 @@ const MouseHeatmap = () => {
 
         if (!isMobile) {
             const handleMouseMove = (e: MouseEvent) => {
+                // Since this is absolute in the hero section (which starts at top:0),
+                // clientX/Y are fine while we're on the first screen.
                 cursorX.set(e.clientX);
                 cursorY.set(e.clientY);
                 lastMoveTime.current = Date.now();
-                setIntensity(0); // Reset intensity immediately on move
-
-                // Only show if we are over the hero section
-                const element = document.elementFromPoint(e.clientX, e.clientY);
-                if (element && element.closest('#hero')) {
-                    setIsVisible(true);
-                } else {
-                    setIsVisible(false);
-                }
+                setIntensity(0);
             };
 
-            // Timer to check for stationarity and increase intensity
             const interval = setInterval(() => {
-                if (!isVisible) return;
                 const now = Date.now();
                 if (now - lastMoveTime.current > 100) {
-                    // Mouse has been stationary for 100ms
                     setIntensity(prev => Math.min(prev + 0.05, 1));
                 }
             }, 50);
@@ -59,16 +48,16 @@ const MouseHeatmap = () => {
         }
 
         return () => window.removeEventListener("resize", checkMobile);
-    }, [isMobile, isVisible]);
+    }, [isMobile]);
 
     if (isMobile) {
         return (
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                 <motion.div
                     className="absolute w-[600px] h-[600px] rounded-full mix-blend-screen opacity-90"
                     animate={{
                         x: [0, window.innerWidth - 300, window.innerWidth / 2, 0],
-                        y: [0, window.innerHeight / 2, window.innerHeight - 300, 0],
+                        y: [0, 800 / 2, 800 - 300, 0], // Use a fixed height for mobile animation reference
                     }}
                     transition={{
                         duration: 10,
@@ -92,11 +81,7 @@ const MouseHeatmap = () => {
     }
 
     return (
-        <motion.div
-            className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-            animate={{ opacity: isVisible ? 1 : 0 }}
-            transition={{ duration: 0.4 }}
-        >
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
             <motion.div
                 className="absolute w-[400px] h-[400px] rounded-full mix-blend-screen opacity-90"
                 style={{
